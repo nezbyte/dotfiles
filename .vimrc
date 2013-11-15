@@ -85,6 +85,7 @@ Bundle 'tpope/vim-commentary'
 Bundle 'hlissner/vim-forrestgump'
 Bundle 'jmcantrell/vim-diffchanges'
 Bundle 'godlygeek/tabular'
+Bundle 'tpope/vim-fugitive'
 "Bundle 'Lokaltog/vim-powerline'
 
 " File Navigation
@@ -154,11 +155,11 @@ nmap K i<cr><esc>k$
 
 " remove trailing whitespace
 " DO NOT USE WITH BINARY FILES!
-autocmd BufWritePre * :call <SID>StripWhite()
-fun! <SID>StripWhite()
-    %s/[ \t]\+$//ge
-    %s!^\( \+\)\t!\=StrRepeat("\t", 1 + strlen(submatch(1)) / 8)!ge
-endfun
+" autocmd BufWritePre * :call <SID>StripWhite()
+" fun! <SID>StripWhite()
+"     %s/[ \t]\+$//ge
+"     %s!^\( \+\)\t!\=StrRepeat("\t", 1 + strlen(submatch(1)) / 8)!ge
+" endfun
 "
 " jj switches to command mode
 :imap jj <Esc>
@@ -288,3 +289,13 @@ if has("win16") || has("win32") || has("win64")
    " set ts=2
 endif
 
+if has('gui_running')
+    " Fix the annoying double ESC issue with powerline
+    " https://powerline.readthedocs.org/en/latest/tipstricks.html
+    set ttimeoutlen=10
+    augroup FastEscape
+        autocmd!
+        au InsertEnter * set timeoutlen=0
+        au InsertLeave * set timeoutlen=1000
+    augroup END
+endif
