@@ -10,8 +10,8 @@ set backspace=indent,eol,start
 syntax enable
 set background=dark
 set ruler
-set sw=2
-set ts=2
+set sw=4
+set ts=4
 set ai "auto indent
 set si "smart indent
 set expandtab
@@ -46,30 +46,33 @@ if $TMUX == ''
 endif
 
 " Cursor Configuration
-if &term =~ '^xterm'
-  " solid underscore
-  let &t_SI .= "\<Esc>[5 q"
-  " solid block
-  let &t_EI .= "\<Esc>[1 q"
-  " 1 or 0 -> blinking block
-  " 3 -> blinking underscore
-  " Recent versions of xterm (282 or above) also support
-  " 5 -> blinking vertical bar
-  " 6 -> solid vertical bar
+if 1 == 0
+    if &term =~ '^xterm'
+      " solid underscore
+      let &t_SI .= "\<Esc>[5 q"
+      " solid block
+      let &t_EI .= "\<Esc>[1 q"
+      " 1 or 0 -> blinking block
+      " 3 -> blinking underscore
+      " Recent versions of xterm (282 or above) also support
+      " 5 -> blinking vertical bar
+      " 6 -> solid vertical bar
+    endif
 endif
 
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#rc()
 " let Vundle manage Vundle
 " required!
 " Plugin Manager
-Bundle 'gmarik/vundle'
+Bundle 'gmarik/Vundle.vim'
 
 " Autocomplete
-Bundle 'vim-scripts/L9'
-Bundle 'vim-scripts/FuzzyFinder'
-Bundle 'vim-scripts/AutoComplPop'
-Bundle 'vim-scripts/SearchComplete'
+" Bundle 'vim-scripts/L9'
+" Bundle 'vim-scripts/FuzzyFinder'
+" Bundle 'vim-scripts/AutoComplPop'
+" Bundle 'vim-scripts/SearchComplete'
+Bundle 'Valloric/YouCompleteMe'
 
 
 " Syntax Highlighting
@@ -289,6 +292,19 @@ if has("win16") || has("win32") || has("win64")
    " set ts=2
 endif
 
+" Syntastic Configuration
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_c_include_dirs = ['libopencm3/include']
+let g:syntastic_c_compiler_options = '-DSTM32F0'
+
+
 if has('gui_running')
     " Fix the annoying double ESC issue with powerline
     " https://powerline.readthedocs.org/en/latest/tipstricks.html
@@ -299,3 +315,9 @@ if has('gui_running')
         au InsertLeave * set timeoutlen=1000
     augroup END
 endif
+" let g:ycm_server_keep_logfiles = 1
+" let g:ycm_server_log_level = 'debug'
+" let g:ycm_min_num_of_chars_for_completion = 1
+" let g:ycm_auto_trigger = 1
+" let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_confirm_extra_conf = 0
